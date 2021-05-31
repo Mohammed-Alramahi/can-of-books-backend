@@ -66,7 +66,7 @@ function seedKittenCollection() {
         user1.save();
         user2.save();
 }
-seedKittenCollection();
+//seedKittenCollection();
 app.get('/books',(req,res)=>{
  let email= req.query.email;
  userModel.find({email:email},function(err,userData){
