@@ -17,14 +17,14 @@ const bookSchema = new mongoose.Schema({
 })
 
 const userSchema = new mongoose.Schema({
-    Email: String,
+    email: String,
     books: [bookSchema] //
 })
 
 const userModel = mongoose.model('user', userSchema);
 function seedKittenCollection() {
     let user1=new userModel({
-    Email:'bahaaqasem20@gmail.com' ,
+    email:'bahaaqasem20%40gmail.com' ,
     books:[
         {
             name: 'javascript',
@@ -44,7 +44,7 @@ function seedKittenCollection() {
     ]
     });
     let user2=new userModel({
-        Email:'vittosc1997@gmail.com' ,
+        email:'vittosc1997%40gmail.com' ,
         books:[
             {
                 name: 'php',
@@ -67,12 +67,14 @@ function seedKittenCollection() {
         user2.save();
 }
 seedKittenCollection();
-app.get('/books',(req,res)=>{
+app.get('/book',(req,res)=>{
  let email= req.query.email;
  userModel.find({email:email},function(err,userData){
     if(err) {
-        console.log('something went wrong!');
-    } else {
+       res.send('something went wrong!');
+    } 
+    
+    else {
         console.log(userData)
         console.log(userData[0])
         console.log(userData[0].books)
@@ -80,8 +82,8 @@ app.get('/books',(req,res)=>{
     }
 })
 })
-app.get('/', () => {
-    console.log('alive');
+app.get('/', (req,res) => {
+    res.send('alive');
 });
 app.listen(PORT, () => {
     console.log('listening');
