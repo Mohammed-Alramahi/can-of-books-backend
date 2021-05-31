@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
 const userModel = mongoose.model('user', userSchema);
 function seedKittenCollection() {
     let user1=new userModel({
-    email:'bahaaqasem20%40gmail.com' ,
+    email:'bahaaqasem20@gmail.com' ,
     books:[
         {
             name: 'javascript',
@@ -44,7 +44,7 @@ function seedKittenCollection() {
     ]
     });
     let user2=new userModel({
-        email:'vittosc1997%40gmail.com' ,
+        email:'vittosc1997@gmail.com' ,
         books:[
             {
                 name: 'php',
@@ -66,19 +66,17 @@ function seedKittenCollection() {
         user1.save();
         user2.save();
 }
-seedKittenCollection();
+//seedKittenCollection();
 app.get('/book',(req,res)=>{
  let email= req.query.email;
+ console.log(email);
  userModel.find({email:email},function(err,userData){
     if(err) {
        res.send('something went wrong!');
     } 
     
     else {
-        console.log(userData)
-        console.log(userData[0])
-        console.log(userData[0].books)
-        res.send(userData[0].books)
+        res.send(userData)
     }
 })
 })
