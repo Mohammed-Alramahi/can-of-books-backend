@@ -5,6 +5,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const app = express();
 app.use(cors());
+app.use(express.json());
 const PORT = process.env.PORT;
 
 mongoose.connect('mongodb://localhost:27017/books',
@@ -69,6 +70,7 @@ function seedKittenCollection() {
 //seedKittenCollection();
 app.get('/book',(req,res)=>{
  let email= req.query.email;
+ //email.replace('%40','@');
  console.log(email);
  userModel.find({email:email},function(err,userData){
     if(err) {
@@ -76,10 +78,37 @@ app.get('/book',(req,res)=>{
     } 
     
     else {
-        res.send(userData)
+        res.send(userData[0].books)
     }
 })
 })
+
+app.post('/Addbook',handleAddBook);
+
+
+function handleAddBook(req,res){
+    const {name,description,status,email} = req.body;
+    //email.replace('%40','@');
+    console.log(email);
+    userModel.find({email:email},function(err,userData){
+    if(!err){
+        userData[0].books.push({
+            name:name,
+            description:description,
+            status:status
+        })
+        
+         userData[0].save();
+        res.send(userData[0].books);
+    }
+    else{
+        res.send(`${err} something wrong!`);
+    }
+    });
+}
+
+
+
 app.get('/', (req,res) => {
     res.send('alive');
 });
