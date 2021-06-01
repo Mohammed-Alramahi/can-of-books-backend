@@ -67,19 +67,26 @@ function seedKittenCollection() {
         user1.save();
         user2.save();
 }
-//seedKittenCollection();
+// seedKittenCollection();
+
+
 app.get('/book',(req,res)=>{
- let email= req.query.email;
- //email.replace('%40','@');
- console.log(email);
- userModel.find({email:email},function(err,userData){
+ let email2= req.query.email
+    //  email.replace('%40','@');
+ console.log(email2);
+ userModel.find({email:email2},(err,userData)=>{
+
+   
     if(err) {
        res.send('something went wrong!');
     } 
     
     else {
+        console.log(userData[0].books)
         res.send(userData[0].books)
     }
+    // userData[0].save();
+
 })
 })
 
@@ -88,7 +95,7 @@ app.post('/Addbook',handleAddBook);
 
 function handleAddBook(req,res){
     const {name,description,status,email} = req.body;
-    //email.replace('%40','@');
+    email.replace('%40','@');
     console.log(email);
     userModel.find({email:email},function(err,userData){
     if(!err){
