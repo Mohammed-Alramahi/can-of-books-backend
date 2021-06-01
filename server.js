@@ -91,7 +91,31 @@ app.get('/book',(req,res)=>{
 })
 
 app.post('/Addbook',handleAddBook);
-
+app.delete('/deletebook/:index',handleDeleteBook);
+function handleDeleteBook(req,res){
+    const email=req.query.email;
+    email.replace('%40','@');
+    const index=parseInt(req.params.index);
+    console.log(email);
+    userModel.find({email:email},function(err,userData){
+       
+    if(!err){
+        const newBooksArr= userData[0].books.filter((book,i)=>{
+            if(i!=index){
+                return book;
+            }
+            });
+            
+            userData[0].books=newBooksArr;
+            userData[0].save();
+            res.send(userData[0].books);
+    }
+    else{
+        res.send("oops");
+    }
+    })
+      
+}
 
 function handleAddBook(req,res){
     const {name,description,status,email} = req.body;
