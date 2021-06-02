@@ -89,7 +89,7 @@ app.get('/book', (req, res) => {
 
     })
 })
-
+app.put('updateBook/:index',handleUpdateBook);
 app.post('/Addbook', handleAddBook);
 app.delete('/deletebook/:index', handleDeleteBook);
 function handleDeleteBook(req, res) {
@@ -115,6 +115,34 @@ function handleDeleteBook(req, res) {
         }
     })
 
+}
+function handleUpdateBook(req,res){
+    const {email,name,description,status,image} = req.query;
+    email.replace('%40', '@');
+    const index = parseInt(req.params.index);
+    console.log(email);
+    userModel.findOne({ email: email }, function (err, userData) {
+        if (!err) {
+            const newBooksArr = userData.books.filter((book, i) => {
+                if (i == index) {
+                    book={
+                    name:name,
+                    description:description,
+                    status:status,
+                    image:image
+                    }
+                }
+            });
+
+            userData.books = newBooksArr;
+            console.log(newBooksArr);
+            userData.save();
+            res.send(userData.books);
+        }
+        else {
+            res.send("oops");
+        }
+    })
 }
 
 function handleAddBook(req, res) {
