@@ -72,7 +72,7 @@ function seedKittenCollection() {
 
 app.get('/book',(req,res)=>{
  let email2= req.query.email
-    //  email.replace('%40','@');
+     email2.replace('%40','@');
  console.log(email2);
  userModel.find({email:email2},(err,userData)=>{
 
@@ -82,7 +82,7 @@ app.get('/book',(req,res)=>{
     } 
     
     else {
-        console.log(userData[0].books)
+        console.log(userData)
         res.send(userData[0].books)
     }
     // userData[0].save();
@@ -92,6 +92,7 @@ app.get('/book',(req,res)=>{
 
 app.post('/Addbook',handleAddBook);
 app.delete('/deletebook/:index',handleDeleteBook);
+
 function handleDeleteBook(req,res){
     const email=req.query.email;
     email.replace('%40','@');
